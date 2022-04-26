@@ -8,15 +8,6 @@ on:
 
 jobs:
 
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag hello-go-http:v1.0
-
   preparing-k3s-cluster:
     name: Spinning up a k3s cluster
     runs-on: ubuntu-latest
@@ -33,3 +24,6 @@ jobs:
           k3d cluster create --servers 3 --image rancher/k3s:${{ matrix.k3s-version }}-k3s1
           kubectl version
           k3d version
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag hello-go-http:v1.0
