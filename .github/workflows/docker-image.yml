@@ -24,6 +24,8 @@ jobs:
           k3d cluster create --servers 3 --image rancher/k3s:${{ matrix.k3s-version }}-k3s1
           kubectl version
           k3d version
+          kubectl get nodes
+          kubectl get pods
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Setup Golang
