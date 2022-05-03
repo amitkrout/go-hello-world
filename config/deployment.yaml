@@ -5,7 +5,7 @@ metadata:
   labels:
     app: web
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: web
@@ -17,5 +17,3 @@ spec:
       containers:
         - name: hello-world
           image: docker.io/amitsilicon2008/hello_go_http:latest
-          ports:
-            - containerPort: 8080
