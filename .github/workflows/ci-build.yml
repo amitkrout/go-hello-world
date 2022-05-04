@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: CI build
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 jobs:
 
   preparing-k3s-cluster:
-    name: Spinning up a k3s cluster
+    name: web app integration-e2e testing
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -51,5 +51,12 @@ jobs:
         run: |
           docker pull k3d-registry.localhost:12345/hello-go-http:v1.0
           kubectl apply -f manifests/
-          sleep 60
+          sleep 30
           kubectl get pods -l "app=web"
+          kubectl describe pod `kubectl get pods | grep hello-world | cut -d ' ' -f 1`
+      - name: Get ginkgo binary and run integration/e2e test
+        run: |
+          go install -mod=mod github.com/onsi/ginkgo/v2/ginkgo && export PATH=$PATH:$(go env GOPATH)/bin/
+          ginkgo version
+          ginkgo -focus="Feature-1 integration test" tests/integration/
+          ginkgo -focus="End to end scenario - 1" tests/e2e/
