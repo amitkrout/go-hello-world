@@ -47,3 +47,8 @@ jobs:
           docker build . --file Dockerfile --tag k3d-registry.localhost:12345/hello-go-http:v1.0
           docker push k3d-registry.localhost:12345/hello-go-http:v1.0
           docker images
+      - name: Deploy the web application
+        run: |
+          kubectl apply -f manifests/
+          sleep 20
+          kubectl get pods
