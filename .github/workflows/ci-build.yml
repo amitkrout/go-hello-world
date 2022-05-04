@@ -49,6 +49,7 @@ jobs:
           docker images
       - name: Deploy the web application
         run: |
+          docker pull k3d-registry.localhost:12345/hello-go-http:v1.0
           kubectl apply -f manifests/
-          sleep 20
-          kubectl get pods
+          sleep 60
+          kubectl get pods -l "app=web"
