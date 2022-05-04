@@ -32,6 +32,11 @@ jobs:
         uses: actions/setup-go@v1
         with:
           go-version: 1.16
+      - name: Get go tools
+        run: |
+          mkdir -p $(shell go env GOPATH)/bin
+	        curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(shell go env GOPATH)/bin v1.37.0
+
       - name: Run unit test
         run: |
           go test ./...
