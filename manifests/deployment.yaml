@@ -15,8 +15,7 @@ spec:
         app: web
     spec:
       containers:
-      - image: docker.io/amitsilicon2008/hello_go_http:latest
+      - image: dk3d-registry.localhost:12345/hello-go-http:v1.0
         name: hello-world
         ports:
         - containerPort: 8080
-          name: nginx
