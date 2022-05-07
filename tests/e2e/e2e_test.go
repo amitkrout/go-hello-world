@@ -1,26 +1,39 @@
 package e2e
 
 import (
-	"fmt"
+	"io/ioutil"
+	"net/http"
 
 	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("End to end scenario - 1", func() {
+var _ = Describe("End to end scenario", func() {
 
-	var _ = BeforeEach(func() {
-		fmt.Println("This is run before every Spec (It)")
+	It("should able to access the URL", func() {
+		appURL := "http://localhost:8081/helloworld"
+		resp, err := http.Get(appURL)
+		Expect(err).ShouldNot(HaveOccurred())
+		defer resp.Body.Close()
+		Expect(resp).Should(HaveHTTPStatus(http.StatusOK))
 	})
 
-	var _ = AfterEach(func() {
-		fmt.Println("This is run after every Spec (It)")
+	It("won't able to access invalid URL payload", func() {
+		appURL := "http://localhost:8081/helloworld-wrong-payload"
+		resp, err := http.Get(appURL)
+		Expect(err).ShouldNot(HaveOccurred())
+		defer resp.Body.Close()
+		Expect(resp).Should(HaveHTTPStatus("404 Not Found"))
 	})
 
-	It("Execute step - 1", func() {
-		fmt.Println("Write logic to execute step - 1")
-	})
-
-	It("Execute step - 2", func() {
-		fmt.Println("Write logic to execute step - 2")
+	It("should display the correct content - Hello, World!", func() {
+		appURL := "http://localhost:8081/helloworld"
+		resp, err := http.Get(appURL)
+		Expect(err).ShouldNot(HaveOccurred())
+		defer resp.Body.Close()
+		Expect(resp).Should(HaveHTTPStatus(http.StatusOK))
+		content, err := ioutil.ReadAll(resp.Body)
+		Expect(err).ShouldNot(HaveOccurred())
+		Expect(content).To(ContainSubstring("Hello, World!"))
 	})
 })

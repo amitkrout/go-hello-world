@@ -1,28 +1,18 @@
 package integration
 
 import (
-	"fmt"
-
 	. "github.com/onsi/ginkgo/v2"
 )
 
-var _ = Describe("Feature-1 integration test", func() {
+var _ = Describe("Feature integration test", func() {
 
-	var _ = BeforeEach(func() {
-		fmt.Println("This is run before every Spec (It)")
-	})
-
-	var _ = AfterEach(func() {
-		fmt.Println("This is run after every Spec (It)")
-	})
-
-	When("running feature-1 integration test", func() {
+	When("running feature integration test", func() {
 		It("should check frist functionalities", func() {
-			fmt.Println("Write logic that checks the first functionalities")
+			Skip("Write logic that checks the first functionalities")
 		})
 
-		It("should check frist functionalities", func() {
-			fmt.Println("Write logic that checks the first functionalities")
+		It("should check second functionalities", func() {
+			Skip("Write logic that checks the second functionalities")
 		})
 
 	})

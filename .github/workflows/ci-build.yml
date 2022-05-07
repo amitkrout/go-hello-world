@@ -62,5 +62,5 @@ jobs:
         run: |
           go install -mod=mod github.com/onsi/ginkgo/v2/ginkgo && export PATH=$PATH:$(go env GOPATH)/bin/
           ginkgo version
-          ginkgo -focus="Feature-1 integration test" tests/integration/
-          ginkgo -focus="End to end scenario - 1" tests/e2e/
+          ginkgo -focus="Feature integration test" tests/integration/
+          ginkgo -focus="End to end scenario" tests/e2e/
