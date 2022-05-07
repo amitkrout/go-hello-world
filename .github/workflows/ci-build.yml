@@ -16,7 +16,7 @@ jobs:
         k3s-version: [ v1.22.5 ]
         # k3s-version: [v1.20.2, v1.19.2, v1.18.9, v1.17.11, v1.16.15]
     steps:
-      - name: Install K3D
+      - name: Install K3D with managed registry
         run: |
           set -x
           curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
@@ -25,9 +25,6 @@ jobs:
           k3d cluster create --servers 3 --image rancher/k3s:${{ matrix.k3s-version }}-k3s1 --registry-use k3d-myregistry.localhost:12345 --api-port 6550 -p "8081:80@loadbalancer" --agents 2
           kubectl version
           k3d version
-          kubectl get nodes
-          docker ps
-          kubectl get pods
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Setup Golang
@@ -49,15 +46,13 @@ jobs:
         run: |
           docker build . --file Dockerfile --tag k3d-myregistry.localhost:12345/hello-go-http:v1.0
           docker push k3d-myregistry.localhost:12345/hello-go-http:v1.0
-          docker images
       - name: Deploy the web application
         run: |
           kubectl create deployment web --image=k3d-myregistry.localhost:12345/hello-go-http:v1.0
-          sleep 30
+          sleep 10
           kubectl create service clusterip web --tcp=8080:8080
           kubectl apply -f manifests/ingress.yaml
-          kubectl get pods -l "app=web"
-          kubectl describe pod `kubectl get pods | grep hello-world | cut -d ' ' -f 1`
+          sleep 10
           curl http://localhost:8081/helloworld
       - name: Get ginkgo binary and run integration/e2e test
         run: |
