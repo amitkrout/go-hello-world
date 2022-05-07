@@ -22,7 +22,7 @@ jobs:
           curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
           sudo mkdir -p $HOME/.kube && sudo chown -R runner $HOME/.kube
           k3d registry create myregistry.localhost --port 12345
-          k3d cluster create --servers 3 --image rancher/k3s:${{ matrix.k3s-version }}-k3s1 --registry-use k3d-myregistry.localhost:12345
+          k3d cluster create --servers 3 --image rancher/k3s:${{ matrix.k3s-version }}-k3s1 --registry-use k3d-myregistry.localhost:12345 --api-port 6550 -p "8081:80@loadbalancer" --agents 2
           kubectl version
           k3d version
           kubectl get nodes
@@ -52,11 +52,13 @@ jobs:
           docker images
       - name: Deploy the web application
         run: |
-          docker pull k3d-myregistry.localhost:12345/hello-go-http:v1.0
-          kubectl apply -f manifests/
+          kubectl create deployment web --image=k3d-myregistry.localhost:12345/hello-go-http:v1.0
           sleep 30
+          kubectl create service clusterip web --tcp=8080:8080
+          kubectl apply -f manifests/ingress.yaml
           kubectl get pods -l "app=web"
           kubectl describe pod `kubectl get pods | grep hello-world | cut -d ' ' -f 1`
+          curl http://localhost:8081/helloworld
       - name: Get ginkgo binary and run integration/e2e test
         run: |
           go install -mod=mod github.com/onsi/ginkgo/v2/ginkgo && export PATH=$PATH:$(go env GOPATH)/bin/
