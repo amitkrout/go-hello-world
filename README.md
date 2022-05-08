@@ -68,3 +68,4 @@ $ cd go-hello-world
 $ ginkgo -focus="Feature integration test" tests/integration/
 $ ginkgo -focus="End to end scenario" tests/e2e/
 ```
+NOTE: GinkGo is on-boarded as the test framework to write integration and end to end test. Please visit [GinkGo](https://onsi.github.io/ginkgo/) documentation to know more about and the features it has.
