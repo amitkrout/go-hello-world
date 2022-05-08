@@ -59,6 +59,14 @@ EOF
 $ curl http://localhost:8081/helloworld
 ```
 
+### How to run unit test
+
+```shell
+$ git clone https://github.com/amitkrout/go-hello-world
+$ cd go-hello-world
+$ go test `go list ./... | grep -v vendor | grep -v tests`
+```
+
 ### How to run integration and e2e locally
 
 ```shell
