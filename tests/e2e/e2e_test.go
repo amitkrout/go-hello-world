@@ -10,14 +10,6 @@ import (
 
 var _ = Describe("End to end scenario", func() {
 
-	It("should able to access the URL", func() {
-		appURL := "http://localhost:8081/helloworld"
-		resp, err := http.Get(appURL)
-		Expect(err).ShouldNot(HaveOccurred())
-		defer resp.Body.Close()
-		Expect(resp).Should(HaveHTTPStatus(http.StatusOK))
-	})
-
 	It("won't able to access invalid URL payload", func() {
 		appURL := "http://localhost:8081/helloworld-wrong-payload"
 		resp, err := http.Get(appURL)
@@ -35,5 +27,16 @@ var _ = Describe("End to end scenario", func() {
 		content, err := ioutil.ReadAll(resp.Body)
 		Expect(err).ShouldNot(HaveOccurred())
 		Expect(content).To(ContainSubstring("Hello, World!"))
+	})
+
+	It("should display the correct addition output - 5 + 5 is 10", func() {
+		appURL := "http://localhost:8081/helloworld"
+		resp, err := http.Get(appURL)
+		Expect(err).ShouldNot(HaveOccurred())
+		defer resp.Body.Close()
+		Expect(resp).Should(HaveHTTPStatus(http.StatusOK))
+		content, err := ioutil.ReadAll(resp.Body)
+		Expect(err).ShouldNot(HaveOccurred())
+		Expect(content).To(ContainSubstring("5 + 5 is 10"))
 	})
 })
