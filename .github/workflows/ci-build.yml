@@ -56,7 +56,6 @@ jobs:
           ./scripts/pod-status.sh
           kubectl create service clusterip web --tcp=8080:8080
           kubectl apply -f manifests/ingress.yaml
-          sleep 10
       - name: Get ginkgo binary and run integration/e2e test
         run: |
           go install -mod=mod github.com/onsi/ginkgo/v2/ginkgo && export PATH=$PATH:$(go env GOPATH)/bin/
