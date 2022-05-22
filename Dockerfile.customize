@@ -1,0 +1,14 @@
+FROM docker.io/amitsilicon2008/ping:test
+
+# Write the Docker steps to run without any argument which ping youtube.com twice
+# For example: $ ping youtube.com -c 2
+
+# Expected output
+# $ docker run -it test
+# PING youtube.com (172.217.160.142) 56(84) bytes of data.
+# 64 bytes from maa03s29-in-f14.1e100.net (172.217.160.142): icmp_seq=1 ttl=59 time=11.8 ms
+# 64 bytes from maa03s29-in-f14.1e100.net (172.217.160.142): icmp_seq=2 ttl=59 time=27.0 ms
+
+# --- youtube.com ping statistics ---
+# 2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+# rtt min/avg/max/mdev = 11.848/19.423/26.998/7.575 ms
