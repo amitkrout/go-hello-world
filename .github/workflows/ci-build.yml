@@ -43,9 +43,9 @@ jobs:
         with:
           version: v1.45.2
           args: --timeout 10m
-      - name: Run unit test
-        run: |
-          go test `go list ./... | grep -v vendor | grep -v tests`
+      # - name: Run unit test
+      #   run: |
+      #     go test `go list ./... | grep -v vendor | grep -v tests`
       - name: Build the Docker image and push to k3s registry
         run: |
           docker build . --file Dockerfile --tag k3d-myregistry.localhost:12345/hello-go-http:v1.0
