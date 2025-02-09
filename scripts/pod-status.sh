@@ -18,3 +18,4 @@ if [ $count -eq 30 ]; then
     echo "Timeout. Please check your CI configuration"
     exit 1
 fi
+
